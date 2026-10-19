@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Celtics Live Win Probability, case study | Mason Marathias</title>
+  <meta name="description" content="A team-specific, real-time win probability model for the Boston Celtics, tested against a simpler score-and-clock model on eight seasons of play-by-play data.">
+  <meta property="og:title" content="Celtics Live Win Probability, case study">
+  <meta property="og:description" content="Building a team-specific win probability model, and testing honestly whether it beats a simpler one.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://masonmarathias.github.io/work/celtics-win-probability/">
+  <meta property="og:image" content="https://masonmarathias.github.io/assets/img/celtics-chart-hero.webp">
+  <meta name="theme-color" content="#0e100e">
+  <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../../assets/css/styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="../../" aria-label="Mason Marathias, home">
+        <img src="../../assets/img/mason-headshot.webp" alt="" width="40" height="40">
+        <span>
+          <span class="brand__name">Mason Marathias</span>
+          <span class="brand__role">Business Analyst</span>
+        </span>
+      </a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+      <nav class="nav" id="site-nav" aria-label="Main">
+        <a href="../../#work">Work</a>
+        <a href="../../#experience">Experience</a>
+        <a href="../../#about">About</a>
+        <a href="../../#contact">Contact</a>
+        <a class="btn btn--line btn--small ext" href="../../resume.pdf" target="_blank" rel="noopener">Résumé</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="case-hero">
+      <div class="wrap">
+        <a class="back link" href="../../#work">Back to all work</a>
+        <p class="label label--accent">Directed research, Brandeis MSBA, 2026</p>
+        <h1>Celtics Live Win Probability</h1>
+        <p class="case-hero__sub">Building a team-specific win probability model, and testing honestly whether it beats a simpler one.</p>
+        <dl class="meta">
+          <div><dt class="label">Role</dt><dd>Sole researcher</dd></div>
+          <div><dt class="label">Faculty supervisor</dt><dd>Ahmad Namini, PhD</dd></div>
+          <div><dt class="label">Research</dt><dd>May to Aug 2026</dd></div>
+          <div><dt class="label">Stack</dt><dd>Python, pandas, XGBoost, nba_api. Next.js dashboard on Vercel.</dd></div>
+        </dl>
+        <div class="case-links">
+          <a class="btn btn--solid ext" href="paper.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a>
+          <a class="btn btn--line ext" href="https://celtics-win-probability.vercel.app/" target="_blank" rel="noopener">Open the live app</a>
+          <a class="btn btn--line ext" href="https://github.com/masonmarathias/celtics-win-probability" target="_blank" rel="noopener">View the code</a>
+        </div>
+        <p class="ai-note">I used AI coding tools (Claude) heavily throughout this project, especially for the dashboard.</p>
+
+        <div class="split">
+          <div>
+            <span class="label label--accent">Results on this page</span>
+            <h2>The research study</h2>
+            <ul>
+              <li>8 seasons, 2016-17 to 2023-24</li>
+              <li>636 games, 308,975 plays</li>
+              <li>Paper completed August 2026</li>
+              <li>All results on this page come from this study</li>
+            </ul>
+          </div>
+          <div>
+            <span class="label">Screenshots on this page</span>
+            <h2>The current app</h2>
+            <ul>
+              <li>10 seasons, 2016-17 to 2025-26</li>
+              <li>800 games</li>
+              <li>2024-25 and 2025-26 added after the study</li>
+              <li>Screenshots on this page show this version</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <figure style="margin: clamp(40px, 5vw, 64px) 0 0;">
+        <img src="../../assets/img/celtics-app-overview.webp" width="1600" height="1510" alt="The Celtics Live Win Probability app at tip-off of the Feb 2, 2025 game at Philadelphia, with the scoreboard, Boston's 58.4 percent win probability, a half-court diagram of both lineups, and the game's biggest probability swings." style="border:1px solid var(--rule-strong)">
+        <figcaption><b>Fig. 1</b> The app at tip-off, Feb 2, 2025 at Philadelphia. Player positions are schematic; the app says so on screen. Current app, 10 seasons.</figcaption>
+      </figure>
+
+      <section class="case-section" aria-labelledby="s-answer">
+        <header><h2 id="s-answer">The short answer</h2></header>
+        <div class="case-section__body">
+          <ul class="answers">
+            <li>
+              <span class="q">Does a Celtics-specific model beat a score-and-clock model?</span>
+              <span class="a"><strong>Overall, no.</strong> The two were a statistical tie: a Brier score of 0.1630 for the Celtics model and 0.1641 for the generic model. The 95% interval for the difference runs from -0.0029 to +0.0048, which includes zero.</span>
+            </li>
+            <li>
+              <span class="q">Where does it help?</span>
+              <span class="a"><strong>Early in games.</strong> In the first six minutes, the generic model did slightly worse than always predicting Boston’s average win rate (skill of -0.3%). The Celtics model did slightly better (1.4%), with about 43% lower calibration error.</span>
+            </li>
+            <li>
+              <span class="q">Did knowing the five players on the floor help?</span>
+              <span class="a"><strong>No.</strong> It made forecasts worse, raising the Brier score to 0.1823.</span>
+            </li>
+            <li>
+              <span class="q">Did opponent strength help?</span>
+              <span class="a"><strong>No.</strong> All four versions tested made forecasts worse.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-question">
+        <header><h2 id="s-question">The question</h2></header>
+        <div class="case-section__body">
+          <p>Win probability numbers on broadcasts usually come from general models fit on every team at once, using little more than the score and the clock. I wanted to know whether a model built for one team, with more information about that team, would give better probabilities for that team’s games.</p>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-data">
+        <header><h2 id="s-data">The data, and checking it</h2></header>
+        <div class="case-section__body">
+          <p>I pulled every Celtics regular-season game from 2016-17 to 2023-24 through nba_api: 636 games and 308,975 play-by-play events.</p>
+          <p>Before modeling anything, I checked the data against sources it didn’t come from. The rebuilt season records came to 413-223, matching the published records. Every final score matched the boxscore. Rebuilding which five players were on the floor at each moment matched official boxscore minutes to within 0.008 minutes across 13,546 player-games.</p>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-defects">
+        <header><h2 id="s-defects">What was wrong with the data</h2></header>
+        <div class="case-section__body">
+          <p>The NBA’s historical play-by-play feed has real defects. I found seven by testing, documented each one, and handled none of them silently.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Table 1. Defects found in the historical feed, from the paper.</caption>
+              <thead><tr><th scope="col">Defect</th><th scope="col">Scale</th><th scope="col">What goes wrong if ignored</th></tr></thead>
+              <tbody>
+                <tr><td>2016-17 records “no score” as “0”</td><td>27,462 events</td><td>Wrong score margins for a full season</td></tr>
+                <tr><td>Substitutions between quarters often not logged</td><td>Widespread</td><td>Lineups broken in 36% of early tests</td></tr>
+                <tr><td>Substitutions name only the outgoing player</td><td>29,186 events</td><td>Incoming player has to be resolved from text</td></tr>
+                <tr><td>Event numbers not unique within a game</td><td>521 events in one game</td><td>Sorting on them scrambles the clock</td></tr>
+                <tr><td>Stale scores on some trailing events</td><td>Isolated</td><td>Score sequences that go backwards</td></tr>
+                <tr><td>Team plus/minus unreliable</td><td>10 of 636 games</td><td>Wrong margins if used</td></tr>
+                <tr><td>Position field unusable before 2017-18</td><td>164 team games</td><td>Wrong starters for a full season</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="callout">The 2016-17 problem was invisible in totals. Final scores still matched. Only a check on every row found it.</p>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-model">
+        <header><h2 id="s-model">How the model works</h2></header>
+        <div class="case-section__body">
+          <p>The model uses 13 features that describe the game at each moment.</p>
+          <p>They are Boston’s score margin, time left in the period and the game, time elapsed, the quarter, overtime, home or away, who has the ball, scoring runs over the last two and five minutes, clutch time, margin per minute remaining, and the possession count. The classifier is XGBoost.</p>
+          <p>I compared four versions, each adding information to the one before it: pregame only, a generic score-and-clock model, the Celtics model, and the Celtics model plus lineup strength.</p>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-test">
+        <header><h2 id="s-test">How it was tested</h2></header>
+        <div class="case-section__body">
+          <p>Every result is out of fold. I trained the model eight times, each time holding out one full season and scoring only that season.</p>
+          <p>To compare models, I resampled whole games rather than single plays, because plays from the same game aren’t independent. Treating them as independent would make the uncertainty look far smaller than it is.</p>
+          <div class="brier">
+            <span class="label label--accent">What a Brier score is</span>
+            <p>The Brier score measures how accurate probability forecasts are. Lower is better, and 0 is perfect. If a model says Boston has a 70% chance to win, Boston should win about 7 of 10 games like that. Being confidently wrong is penalized most.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-results">
+        <header><h2 id="s-results">Results</h2></header>
+        <div class="case-section__body">
+          <p>The big gain comes from using in-game information at all. The Celtics model’s extra features added very little on top of that.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Table 2. Out-of-fold results by model, 636 games and 308,975 events. Lower Brier is better.</caption>
+              <thead><tr><th scope="col">Model</th><th scope="col" class="num">AUC</th><th scope="col" class="num">Brier</th><th scope="col" class="num">Skill</th></tr></thead>
+              <tbody>
+                <tr><td>Pregame only</td><td class="num">0.5315</td><td class="num">0.2258</td><td class="num">1.4%</td></tr>
+                <tr><td>Generic score-and-clock model</td><td class="num">0.8119</td><td class="num">0.1641</td><td class="num">28.4%</td></tr>
+                <tr class="is-key"><td>Celtics model</td><td class="num">0.8155</td><td class="num">0.1630</td><td class="num">28.8%</td></tr>
+                <tr><td>Celtics model plus lineup strength</td><td class="num">0.7768</td><td class="num">0.1823</td><td class="num">20.4%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>The Celtics model’s 28.8% skill means it moved a little over a quarter of the way from a forecast that never changes toward a perfect one.</p>
+          <p>Where the Celtics model does better is the start of the game, when the score hasn’t separated yet.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>Table 3. Early-game results. Skill above zero beats always predicting Boston’s average win rate. Lower calibration error is better.</caption>
+              <thead><tr><th scope="col">Phase</th><th scope="col" class="num">Generic skill</th><th scope="col" class="num">Celtics skill</th><th scope="col" class="num">Generic calibration error</th><th scope="col" class="num">Celtics calibration error</th></tr></thead>
+              <tbody>
+                <tr class="is-key"><td>First 6 minutes</td><td class="num">-0.3%</td><td class="num">1.4%</td><td class="num">0.0474</td><td class="num">0.0272</td></tr>
+                <tr><td>First quarter</td><td class="num">2.4%</td><td class="num">4.0%</td><td class="num">0.0428</td><td class="num">0.0172</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figure>
+            <img src="../../assets/img/celtics-detailed-chart.webp" width="1600" height="645" loading="lazy" alt="Detailed probability chart for the Feb 2, 2025 game at Philadelphia comparing the Celtics model, a solid green line, with the generic model, a dashed line. The two lines track each other closely for most of the game.">
+            <figcaption><b>Fig. 2</b> The two models side by side for one game: solid line is the Celtics model, dashed is the generic model. They track closely, which is the tie you can see. The caption inside this screenshot reports the 10-season app’s figures, not the paper’s. Current app, 10 seasons.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-didnt">
+        <header><h2 id="s-didnt">What didn’t work, and why that’s useful</h2></header>
+        <div class="case-section__body">
+          <p>Adding lineup strength made the model clearly worse, and three alternative versions I specified in advance were worse too. Every version of opponent strength also made it worse.</p>
+          <p>When I replaced the opponent with a random ID of the same size, the random ID caused about 85% of the same damage. That showed the model was memorizing individual games rather than learning about opponents, which is a reason to distrust feature-importance charts in models like this.</p>
+          <figure>
+            <img src="../../assets/img/celtics-lineup-whatif.webp" width="1600" height="1092" loading="lazy" alt="Two app panels. Lineup on the floor shows lineup values for Boston and the opponent, labeled descriptive only. What if the margin were different shows a slider, labeled in-sample.">
+            <figcaption><b>Fig. 3</b> The app still shows lineup values, labeled as descriptive only, because the model doesn’t use them. The what-if slider is labeled in-sample. Current app, 10 seasons.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-limits">
+        <header><h2 id="s-limits">Limitations</h2></header>
+        <div class="case-section__body">
+          <p>These are stated in the paper too.</p>
+          <ul class="plain">
+            <li>Overall AUC is helped by fourth quarters, where big leads make outcomes easy to call.</li>
+            <li>Training only on earlier seasons scored 0.0025 Brier worse, so the main figures are slightly optimistic for a truly new season.</li>
+            <li>There is no correction for running many comparisons.</li>
+            <li>The lineup measure is simple, not adjusted plus-minus.</li>
+            <li>It covers one team only.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="case-section" aria-labelledby="s-after">
+        <header><h2 id="s-after">After the study: expanding the app to 10 seasons</h2></header>
+        <div class="case-section__body">
+          <p>The paper documents the original 8-season study, and I left it as written.</p>
+          <p>After finishing it, I added the 2024-25 and 2025-26 seasons to the app, so it now covers 10 seasons and 800 games. The results above come from the 8-season study. The screenshots below show the current app, so some figures in them, such as the scorecard, reflect the 10-season version rather than the paper.</p>
+          <div class="gallery">
+            <figure class="wide">
+              <img src="../../assets/img/celtics-replay.webp" width="1600" height="1122" loading="lazy" alt="Play-by-play replay: win probability chart, the current play, and the players on the floor with points, rebounds and assists.">
+              <figcaption><b>Fig. 4</b> Play-by-play replay with the players on the floor. Current app, 10 seasons.</figcaption>
+            </figure>
+            <figure>
+              <img src="../../assets/img/celtics-comebacks.webp" width="1090" height="1500" loading="lazy" alt="Comebacks view for 2024-25: Celtics wins ranked by the lowest win probability the model gave them, led by Feb 2, 2025 at Philadelphia at 0.16 percent.">
+              <figcaption><b>Fig. 5</b> Comebacks, ranked by the model’s low point. The Feb 2, 2025 win at Philadelphia bottomed out at 0.16%. Current app, 10 seasons.</figcaption>
+            </figure>
+            <figure>
+              <img src="../../assets/img/celtics-swings.webp" width="1120" height="1410" loading="lazy" alt="Biggest single-play swings across all seasons, each with the play description and a link to the official clip.">
+              <figcaption><b>Fig. 6</b> The biggest single-play swings, each matched to an official clip. Current app, 10 seasons.</figcaption>
+            </figure>
+            <figure class="wide">
+              <img src="../../assets/img/celtics-scorecard.webp" width="1600" height="1280" loading="lazy" alt="The app's model scorecard panel with a Brier score bar comparing the Celtics model to the generic model, and tiles for Brier score, skill, AUC, log loss and calibration error.">
+              <figcaption><b>Fig. 7</b> The app’s scorecard. These figures come from the expanded 10-season app. The research results above come from the 8-season study. Current app, 10 seasons.</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section class="next">
+        <p class="actions">
+          <a class="link ext" href="paper.pdf" target="_blank" rel="noopener">Read the paper (PDF)</a>
+          <a class="link ext" href="https://celtics-win-probability.vercel.app/" target="_blank" rel="noopener">Open the live app</a>
+          <a class="link ext" href="https://github.com/masonmarathias/celtics-win-probability" target="_blank" rel="noopener">View the code</a>
+          <a class="link" href="../elaion-of-kalamata/">Next: Elaion of Kalamata</a>
+          <a class="link" href="../../">Back to home</a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap label">
+      <span>Mason Marathias, 2026</span>
+      <span>Hosted on GitHub Pages</span>
+    </div>
+  </footer>
+
+  <script src="../../assets/js/main.js" defer></script>
+</body>
+</html>
